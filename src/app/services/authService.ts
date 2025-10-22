@@ -2,10 +2,10 @@ export const authService = {
   login: async (clientId: string, clientSecret: string) => {
     try {
       const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
-      const scopes = ["cob.write", "cob.read"];
       const body = new URLSearchParams({
         grant_type: "client_credentials",
-        scope: scopes.join(" "),
+        scope:
+          "kyc.background-check.natural-person kyc.background-check.legal-person cob.write cob.read webhooks.read webhooks.write merchants.read merchants.write terminals.read terminals.write transactions.read transactions.write",
       });
 
       const response = await fetch("https://api-h.nuvende.com.br/api/v2/auth/login", {
@@ -41,6 +41,6 @@ export const authService = {
       throw new Error(error.message || "Token inválido");
     }
 
-    return response.json(); // Retorna dados do usuário
+    return response.json();
   },
 };
